@@ -1,12 +1,12 @@
-log_dir: $path_to_log$
+log_dir: log
 
 data:
-    data_dir: $path_to_data$smoke_data_nu0.003_b0.5
+    data_dir: /home/di49map/FactFormer/data
     resolution: 64
-    dataset_stat: smoke3d_stats_nu0_003_b0.5_all.npz
+    dataset_stat: smoke_0.npz
     start_frame: 0
-    train_num: 2000
-    test_num: 200
+    train_num: 4
+    test_num: 1
     batch_size: 2
     checkfiles: False
 

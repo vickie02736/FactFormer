@@ -1,0 +1,14 @@
+2025-03-22 17:57:22,565 - LOG - INFO - 
+2025-03-22 17:57:22,571 - LOG - INFO - =====================================
+2025-03-22 17:57:22,571 - LOG - INFO - Number of trainable parameters: 4501764
+2025-03-22 17:57:22,571 - LOG - INFO - Total training iterations: 200
+2025-03-22 17:57:22,571 - LOG - INFO - Max latent steps: 4
+2025-03-22 17:57:22,571 - LOG - INFO - Curriculum length: 6000
+2025-03-22 17:57:22,571 - LOG - INFO - Pushforward after: 10000
+2025-03-22 17:57:22,571 - LOG - INFO - =====================================
+2025-03-22 17:57:24,240 - LOG - INFO - Epoch 0 - Test loss: 0.9271
+2025-03-22 17:58:10,133 - LOG - INFO - Epoch 20 - Test loss: 0.8198
+2025-03-22 17:58:52,580 - LOG - INFO - Epoch 40 - Test loss: 0.9273
+2025-03-22 17:59:35,265 - LOG - INFO - Epoch 60 - Test loss: 0.8923
+2025-03-22 18:00:17,817 - LOG - INFO - Epoch 80 - Test loss: 0.8621
+2025-03-22 18:01:00,397 - LOG - INFO - Epoch 100 - Test loss: 0.8522

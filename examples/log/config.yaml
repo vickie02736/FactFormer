@@ -1,0 +1,40 @@
+!!python/object:argparse.Namespace
+data: !!python/object:argparse.Namespace
+  batch_size: 2
+  checkfiles: false
+  data_dir: /home/di49map/FactFormer/data
+  dataset_stat: smoke_0.npz
+  resolution: 64
+  start_frame: 0
+  test_num: 1
+  train_num: 4
+log_dir: log
+model: !!python/object:argparse.Namespace
+  depth: 3
+  dim: 128
+  dim_head: 64
+  heads: 6
+  in_dim: 4
+  in_time_window: 4
+  kernel_multiplier: 3
+  latent_multiplier: 1.5
+  max_latent_steps: 4
+  out_dim: 4
+  out_time_window: 16
+  padding: 2
+  pos_in_dim: 3
+  pos_out_dim: 3
+  positional_embedding: rotary
+training: !!python/object:argparse.Namespace
+  curriculum_end: 4
+  curriculum_length: 6000
+  curriculum_start: 1
+  dump_visualization: true
+  epochs: 100
+  lr: 0.0003
+  lr_div_factor: 10000
+  pushforward_after: 10000
+  pushforward_every: 3
+  sampling_ratio: 1.0
+  save_every: 50
+  test_every: 20

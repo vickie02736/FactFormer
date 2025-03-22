@@ -1,3 +1,7 @@
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import glob
 
 import torch
@@ -16,7 +20,7 @@ import logging, pickle, h5py
 
 from libs.factorization_module import FABlock3D
 from libs.basics import PreNorm, MLP
-from nn_module.positional_encoding_module import GaussianFourierFeatureTransform
+from libs.positional_encoding_module import GaussianFourierFeatureTransform
 from utils import Trainer, dict2namespace, index_points, load_checkpoint, save_checkpoint, ensure_dir, Timer
 import yaml
 from torch.optim.lr_scheduler import OneCycleLR
@@ -61,7 +65,12 @@ class FactorizedTransformer(nn.Module):
 
         for l, (pos_enc, attn_layer) in enumerate(self.layers):
             u += rearrange(pos_enc(pos), '1 (nx ny nz) c -> 1 nx ny nz c', nx=nx, ny=ny, nz=nz)
-            u = attn_layer(u, pos_lst) + u
+            z = attn_layer(u, pos_lst)
+            # print(z.shape)
+            # print(u.shape)
+            # u = u.view(1, -1, 128)
+            z = z.view(u.shape)
+            u = z + u
         return u
 
 
@@ -312,9 +321,9 @@ class Smoke3DData(Dataset):
     def impose_dirichlet_to_input(self, x):
         # assume x is in [b c t n n n] and is normalized
         # impose dirichlet boundary condition
-        x[:, 1, :, 0, :, :] = (0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6)
-        x[:, 2, :, :, 0, :] = (0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6)
-        x[:, 3, :, :, :, 0] = (0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6)
+        x[:, 1, :, 0, :, :] = torch.tensor((0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6), dtype=x.dtype, device=x.device)
+        x[:, 2, :, :, 0, :] = torch.tensor((0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6), dtype=x.dtype, device=x.device)
+        x[:, 3, :, :, :, 0] = torch.tensor((0 - self.stats['vel_mean']) / (self.stats['vel_std'] + 1e-6), dtype=x.dtype, device=x.device)
         return x
 
     def __len__(self):
@@ -438,7 +447,7 @@ class Smoke3dTrainer(Trainer):
             ensure_dir(self.log_dir + '/visualization')
 
         # copy all the files under nn_module
-        shutil.copytree('nn_module', self.log_dir + '/nn_module')
+        # shutil.copytree('nn_module', self.log_dir + '/nn_module')
 
         self.logger.info('=====================================')
         self.logger.info(f'Number of trainable parameters: {num_params}')
